@@ -40,7 +40,7 @@ const MenuMobile = ({ isOpen, onClose }) => {
               className="hover:text-ecoGreen transition"
               onClick={onClose}
             >
-              Connexion
+              Log in
             </a>
           </nav>
         </div>
