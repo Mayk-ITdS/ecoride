@@ -1,6 +1,6 @@
-import AvisCard from "./Avis/AvisCards";
+import AvisCard from "../Avis/AvisCards";
 
-const Acceuil2 = () => {
+const AcceuilPresentation = () => {
   return (
     <>
       <section className="relative min-h-screen w-full bg-ecoWhite">
@@ -99,4 +99,4 @@ const Acceuil2 = () => {
     </>
   );
 };
-export default Acceuil2;
+export default AcceuilPresentation;

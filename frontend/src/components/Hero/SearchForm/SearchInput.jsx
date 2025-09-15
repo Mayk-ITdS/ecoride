@@ -35,7 +35,7 @@ const SearchInput = () => {
         id="date"
         name="date"
         type="date"
-        className="min-w-[140px] w-full  md:w-auto py-6 md:h-14 px-4 
+        className="min-w-[140px] w-full md:w-auto py-6 md:h-14 px-4 
                        bg-[#2B2929]/50  text-white placeholder:text-white
                        focus:outline-none focus:ring-2 focus:ring-ecoGreen"
       />
