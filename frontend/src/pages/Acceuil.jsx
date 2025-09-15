@@ -1,4 +1,4 @@
-import Acceuil2 from "../components/Acceuil2";
+import Acceuil2 from "../components/Acceuil/AcceuilPresentation";
 import HeroWrapper from "../components/Hero/HeroWrapper";
 
 const Home = () => {

@@ -8,7 +8,7 @@ const MenuDesktop = () => {
         Contact
       </a>
       <a href="/login" className="hover:text-ecoGreen transition">
-        Connexion
+        Log in
       </a>
     </nav>
   );

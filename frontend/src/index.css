@@ -8,7 +8,6 @@
   input::placeholder {
     @apply text-white/20;
   }
-
   input[type="date"]::-webkit-datetime-edit,
   input[type="date"]::-webkit-datetime-edit-text,
   input[type="date"]::-webkit-datetime-edit-month-field,
@@ -17,7 +16,6 @@
     color: rgba(255, 255, 255, 0.8);
   }
 }
-
 input[type="date"] {
   color: white;
 }

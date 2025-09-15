@@ -1,7 +1,7 @@
 import { useState } from "react";
 import HeaderRegister from "@/components/Register/HeaderRegister";
 
-const Register = () => {
+const Login = () => {
   const [form, setForm] = useState({
     pseudo: "",
     email: "",
@@ -19,23 +19,9 @@ const Register = () => {
       <section className="flex flex-1 flex-col justify-center items-center w-full font-display ">
         <form className="relative w-full max-w-2xl flex flex-col gap-6 text-center justify-center">
           <legend className="text-5xl font-bold text-left pb-10 text-gray-800">
-            Créer un <span className="text-ecoPurple">compte</span>
+            Log <span className="text-ecoPurple">in</span>
           </legend>
           <fieldset className="flex flex-col gap-3">
-            <div>
-              <label htmlFor="pseudo" className="flex px-3">
-                Pseudonyme
-              </label>
-              <input
-                value={form.pseudo}
-                onChange={handleChange}
-                id="pseudo"
-                name="pseudo"
-                type="text"
-                placeholder="Pseudonyme"
-                className="w-full px-6 py-6 mb-3 border border-gray-400 rounded-full bg-transparent focus:outline-none focus:ring-2 focus:ring-ecoGreen"
-              />
-            </div>
             <div>
               <label htmlFor="email" className="flex px-3">
                 Email
@@ -68,16 +54,6 @@ const Register = () => {
               <label htmlFor="confirm" className="flex text-left px-3">
                 Confirm a password
               </label>
-
-              <input
-                id="confirm"
-                name="confirm"
-                value={form.confirm}
-                onChange={handleChange}
-                type="password"
-                placeholder="Confirmation du password"
-                className="w-full px-6 py-6 mb-3 border border-gray-400 rounded-full bg-transparent focus:outline-none focus:ring-2 focus:ring-ecoGreen"
-              />
             </div>
           </fieldset>
           <p className="text-xs text-gray-700">
@@ -95,12 +71,12 @@ const Register = () => {
             type="submit"
             className="w-full py-5 rounded-full bg-ecoPurple text-white font-semibold hover:bg-purple-700 transition"
           >
-            S’inscrire
+            Connnexion
           </button>
           <p className="text-sm text-gray-700">
             Deja un compte ?{" "}
-            <a href="/login" className="font-semibold underline">
-              Se connecter
+            <a href="/register" className="font-semibold underline">
+              Creer un compte
             </a>
           </p>
         </form>
@@ -108,4 +84,4 @@ const Register = () => {
     </section>
   );
 };
-export default Register;
+export default Login;
