@@ -1,0 +1,131 @@
+generator client {
+  provider = "prisma-client-js"
+  
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model historique_trajets {
+  id_trajet          Int?
+  id_chauffeur       Int?
+  id_voiture         Int?
+  depart_ville       String?   @db.VarChar(100)
+  arrivee_ville      String?   @db.VarChar(100)
+  duree_estimee      Int?
+  prix               Decimal?  @db.Decimal(6, 2)
+  places_disponibles Int?
+  depart_ts          DateTime? @db.Timestamp(6)
+  arrivee_ts         DateTime? @db.Timestamp(6)
+  status_id          Int?
+
+  @@ignore
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model modeles_voiture {
+  id_modele      Int        @id @default(autoincrement())
+  marque         String     @db.VarChar(50)
+  modele         String     @db.VarChar(50)
+  annee          Int?
+  type_carburant String?    @db.VarChar(20)
+  voitures       voitures[]
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model paiements {
+  id_paiement   Int       @id @default(autoincrement())
+  id_user       Int?
+  id_trajet     Int?
+  montant       Decimal   @db.Decimal(6, 2)
+  date_paiement DateTime? @default(now()) @db.Timestamp(6)
+  mode          String?   @db.VarChar(20)
+  trajets       trajets?  @relation(fields: [id_trajet], references: [id_trajet], onDelete: NoAction, onUpdate: NoAction)
+  users         users?    @relation(fields: [id_user], references: [id_user], onDelete: NoAction, onUpdate: NoAction)
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model participations {
+  id_participation Int       @id @default(autoincrement())
+  id_trajet        Int?
+  id_passager      Int?
+  statut           String?   @default("reserve") @db.VarChar(20)
+  date_reservation DateTime? @default(now()) @db.Timestamp(6)
+  users            users?    @relation(fields: [id_passager], references: [id_user], onDelete: Cascade, onUpdate: NoAction)
+  trajets          trajets?  @relation(fields: [id_trajet], references: [id_trajet], onDelete: Cascade, onUpdate: NoAction)
+
+  @@unique([id_trajet, id_passager])
+}
+
+model roles {
+  role_id    Int          @id @default(autoincrement())
+  nom        String?      @unique @db.VarChar(50)
+  user_roles user_roles[]
+}
+
+model status_trajet {
+  status_id  Int       @id @default(autoincrement())
+  nom_status String    @unique @db.VarChar(50)
+  trajets    trajets[]
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model trajets {
+  id_trajet          Int              @id @default(autoincrement())
+  id_chauffeur       Int?
+  id_voiture         Int?
+  depart_ville       String           @db.VarChar(100)
+  arrivee_ville      String           @db.VarChar(100)
+  duree_estimee      Int?
+  prix               Decimal          @db.Decimal(6, 2)
+  places_disponibles Int?
+  depart_ts          DateTime?        @db.Timestamp(6)
+  arrivee_ts         DateTime?        @db.Timestamp(6)
+  status_id          Int
+  paiements          paiements[]
+  participations     participations[]
+  status_trajet      status_trajet    @relation(fields: [status_id], references: [status_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_status_trajet")
+  users              users?           @relation(fields: [id_chauffeur], references: [id_user], onUpdate: NoAction)
+  voitures           voitures?        @relation(fields: [id_voiture], references: [id_voiture], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model user_roles {
+  user_id Int
+  role_id Int
+  roles   roles @relation(fields: [role_id], references: [role_id], onDelete: Cascade, onUpdate: NoAction)
+  users   users @relation(fields: [user_id], references: [id_user], onDelete: Cascade, onUpdate: NoAction)
+
+  @@id([user_id, role_id])
+}
+
+model users {
+  id_user          Int              @id @default(autoincrement())
+  pseudo           String           @unique @db.VarChar(50)
+  email            String           @unique @db.VarChar(100)
+  mot_de_passe     String
+  date_inscription DateTime?        @default(now()) @db.Timestamp(6)
+  credits          Int?             @default(20)
+  paiements        paiements[]
+  participations   participations[]
+  trajets          trajets[]
+  user_roles       user_roles[]
+  voitures         voitures[]
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model voitures {
+  id_voiture          Int              @id @default(autoincrement())
+  id_user             Int?
+  id_modele           Int?
+  couleur             String?          @db.VarChar(30)
+  immatriculation     String?          @unique @db.VarChar(20)
+  date_enregistrement DateTime?        @default(now()) @db.Timestamp(6)
+  nb_places           Int              @db.SmallInt
+  is_electric         Boolean          @default(false)
+  trajets             trajets[]
+  modeles_voiture     modeles_voiture? @relation(fields: [id_modele], references: [id_modele], onDelete: NoAction, onUpdate: NoAction)
+  users               users?           @relation(fields: [id_user], references: [id_user], onDelete: Cascade, onUpdate: NoAction)
+}
