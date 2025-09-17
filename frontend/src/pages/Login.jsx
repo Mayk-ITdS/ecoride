@@ -1,5 +1,7 @@
 import { useState } from "react";
 import HeaderRegister from "@/components/Register/HeaderRegister";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [form, setForm] = useState({
@@ -8,16 +10,36 @@ const Login = () => {
     password: "",
     confirm: "",
   });
+  const navigate = useNavigate();
   const handleChange = (form) => {
     const { name, value } = form.target;
     setForm((previous) => ({ ...previous, [name]: value }));
+  };
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post("/api/users/login", {
+        email: form.email,
+        password: form.password,
+      });
+      localStorage.setItem("token", response.data.token);
+      alert("Connexion réussie !");
+      navigate("/dashboard", 1000);
+    } catch (error) {
+      console.error("Erreur login:", error);
+      alert("Identifiants invalides");
+    }
   };
 
   return (
     <section className="min-h-screen flex flex-col bg-gradient-radial from-green-100 via-green-200 to-green-400 px-4">
       <HeaderRegister />
       <section className="flex flex-1 flex-col justify-center items-center w-full font-display ">
-        <form className="relative w-full max-w-2xl flex flex-col gap-6 text-center justify-center">
+        <form
+          onSubmit={handleLogin}
+          className="relative w-full max-w-2xl flex flex-col gap-6 text-center justify-center"
+        >
           <legend className="text-5xl font-bold text-left pb-10 text-gray-800">
             Log <span className="text-ecoPurple">in</span>
           </legend>
@@ -49,11 +71,6 @@ const Login = () => {
                 placeholder="Password"
                 className="w-full px-6 py-6 mb-3 border border-gray-400 rounded-full bg-transparent focus:outline-none focus:ring-2 focus:ring-ecoGreen"
               />
-            </div>
-            <div>
-              <label htmlFor="confirm" className="flex text-left px-3">
-                Confirm a password
-              </label>
             </div>
           </fieldset>
           <p className="text-xs text-gray-700">

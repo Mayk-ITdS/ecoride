@@ -40,5 +40,5 @@ export default {
       xl: "1280px",
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [],
 };
