@@ -16,6 +16,6 @@ const HeroSlogan = () => {
         La plateforme de covoiturage pour les voyageurs <br /> écoresponsables.
       </p>
     </div>
-  );
-};
-export default HeroSlogan;
+  )
+}
+export default HeroSlogan

@@ -11,6 +11,6 @@ const HeroBadges = () => {
         Trajets vérifiés
       </span>
     </div>
-  );
-};
-export default HeroBadges;
+  )
+}
+export default HeroBadges

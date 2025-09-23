@@ -1,4 +1,4 @@
-import SearchInput from "./SearchInput";
+import SearchInput from './SearchInput'
 
 const SearchFieldset = ({ filters, onChange }) => {
   return (
@@ -12,10 +12,10 @@ const SearchFieldset = ({ filters, onChange }) => {
         onChange={onChange}
       />
       <SearchInput
-        id="arrive"
-        name="arrive"
+        id="arrivee"
+        name="arrivee"
         placeholder="Arrivée"
-        value={filters.arrive}
+        value={filters.arrivee}
         onChange={onChange}
       />
       <SearchInput
@@ -27,6 +27,6 @@ const SearchFieldset = ({ filters, onChange }) => {
         onChange={onChange}
       />
     </fieldset>
-  );
-};
-export default SearchFieldset;
+  )
+}
+export default SearchFieldset

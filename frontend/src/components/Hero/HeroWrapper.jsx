@@ -1,7 +1,7 @@
-import HeroBadges from "./HeroBadges";
-import HeroSlogan from "./HeroSlogan";
-import Header from "../Header/Header";
-import SearchForm from "./SearchForm/SearchForm";
+import HeroBadges from './HeroBadges'
+import HeroSlogan from './HeroSlogan'
+import Header from '../Header/Header'
+import SearchForm from './SearchForm/SearchForm'
 const HeroWrapper = () => {
   return (
     <section className="relative min-h-screen w-full overflow-hidden">
@@ -17,6 +17,6 @@ const HeroWrapper = () => {
         <HeroBadges />
       </div>
     </section>
-  );
-};
-export default HeroWrapper;
+  )
+}
+export default HeroWrapper

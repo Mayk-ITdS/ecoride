@@ -1,41 +1,57 @@
-import { useState } from "react";
-import HeaderRegister from "@/components/Register/HeaderRegister";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import axios from 'axios'
+import HeaderRegister from '@/components/Register/HeaderRegister'
+import useAuthorization from '../hooks/useAuthorization'
+
+const getRoleHomePath = (user) => {
+  const role = user?.role || user?.roles?.[0]
+  if (role === 'admin') return '/admin'
+  if (role === 'employee') return '/employee'
+  return '/dashboard'
+}
 
 const Login = () => {
-  const [form, setForm] = useState({
-    pseudo: "",
-    email: "",
-    password: "",
-    confirm: "",
-  });
-  const navigate = useNavigate();
-  const handleChange = (form) => {
-    const { name, value } = form.target;
-    setForm((previous) => ({ ...previous, [name]: value }));
-  };
+  const [form, setForm] = useState({ email: '', password: '' })
+  const [loading, setLoading] = useState(false)
+  const { login } = useAuthorization()
+  const navigate = useNavigate()
+
+  const handleChange = (e) => {
+    const { name, value } = e.target
+    setForm((prev) => ({ ...prev, [name]: value }))
+  }
 
   const handleLogin = async (e) => {
-    e.preventDefault();
+    e.preventDefault()
+    if (loading) return
+    setLoading(true)
     try {
-      const response = await axios.post("/api/users/login", {
+      const { data } = await axios.post('/api/users/login', {
         email: form.email,
         password: form.password,
-      });
-      localStorage.setItem("token", response.data.token);
-      alert("Connexion réussie !");
-      navigate("/dashboard", 1000);
+      })
+
+      // zakładam, że backend zwraca: { token, user }
+      const { token, user } = data
+
+      // zapisz sesję przez Twój hook
+      await login(token, user)
+
+      // redirect wg roli
+      navigate(getRoleHomePath(user), { replace: true })
     } catch (error) {
-      console.error("Erreur login:", error);
-      alert("Identifiants invalides");
+      console.error('Erreur login:', error)
+      alert('Identifiants invalides')
+    } finally {
+      setLoading(false)
     }
-  };
+  }
 
   return (
     <section className="min-h-screen flex flex-col bg-gradient-radial from-green-100 via-green-200 to-green-400 px-4">
       <HeaderRegister />
-      <section className="flex flex-1 flex-col justify-center items-center w-full font-display ">
+      <section className="flex flex-1 flex-col justify-center items-center w-full font-display">
         <form
           onSubmit={handleLogin}
           className="relative w-full max-w-2xl flex flex-col gap-6 text-center justify-center"
@@ -43,6 +59,7 @@ const Login = () => {
           <legend className="text-5xl font-bold text-left pb-10 text-gray-800">
             Log <span className="text-ecoPurple">in</span>
           </legend>
+
           <fieldset className="flex flex-col gap-3">
             <div>
               <label htmlFor="email" className="flex px-3">
@@ -56,6 +73,7 @@ const Login = () => {
                 type="email"
                 placeholder="Email"
                 className="w-full px-6 py-6 mb-3 border border-gray-400 rounded-full bg-transparent focus:outline-none focus:ring-2 focus:ring-ecoGreen"
+                required
               />
             </div>
             <div>
@@ -70,35 +88,41 @@ const Login = () => {
                 type="password"
                 placeholder="Password"
                 className="w-full px-6 py-6 mb-3 border border-gray-400 rounded-full bg-transparent focus:outline-none focus:ring-2 focus:ring-ecoGreen"
+                required
               />
             </div>
           </fieldset>
+
           <p className="text-xs text-gray-700">
-            By continuing, you agree to the{" "}
+            By continuing, you agree to the{' '}
             <a href="#" className="underline">
               Terms of use
-            </a>{" "}
-            and{" "}
+            </a>{' '}
+            and{' '}
             <a href="#" className="underline">
               Privacy Policy
             </a>
             .
           </p>
+
           <button
             type="submit"
-            className="w-full py-5 rounded-full bg-ecoPurple text-white font-semibold hover:bg-purple-700 transition"
+            disabled={loading}
+            className="w-full py-5 rounded-full bg-ecoPurple text-white font-semibold hover:bg-purple-700 transition disabled:opacity-60"
           >
-            Connnexion
+            {loading ? 'Connexion…' : 'Connexion'}
           </button>
+
           <p className="text-sm text-gray-700">
-            Deja un compte ?{" "}
-            <a href="/register" className="font-semibold underline">
-              Creer un compte
-            </a>
+            Déjà un compte ?{' '}
+            <Link to="/register" className="font-semibold underline">
+              Créer un compte
+            </Link>
           </p>
         </form>
       </section>
     </section>
-  );
-};
-export default Login;
+  )
+}
+
+export default Login

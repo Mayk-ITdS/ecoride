@@ -1,37 +1,37 @@
-import { useState } from "react";
-import HeaderRegister from "@/components/Register/HeaderRegister";
-import axios from "axios";
+import { useState } from 'react'
+import HeaderRegister from '@/components/Register/HeaderRegister'
+import axios from 'axios'
 
 const Register = () => {
   const [form, setForm] = useState({
-    pseudo: "",
-    email: "",
-    password: "",
-    confirm: "",
-  });
+    pseudo: '',
+    email: '',
+    password: '',
+    confirm: '',
+  })
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setForm((previous) => ({ ...previous, [name]: value }));
-  };
+    const { name, value } = e.target
+    setForm((previous) => ({ ...previous, [name]: value }))
+  }
   const handleRegister = async (e) => {
-    e.preventDefault();
+    e.preventDefault()
     if (form.password !== form.confirm) {
-      alert("Les mots de passe ne correspondent pas !");
-      return;
+      alert('Les mots de passe ne correspondent pas !')
+      return
     }
     try {
       const response = await axios.post(`/api/users/register`, {
         pseudo: form.pseudo,
         email: form.email,
         password: form.password,
-      });
-      console.log("User created:", response.data);
-      alert("Inscription réussie !");
+      })
+      console.log('User created:', response.data)
+      alert('Inscription réussie !')
     } catch (error) {
-      console.error("Erreur register:", error);
-      alert("Erreur lors de l'inscription");
+      console.error('Erreur register:', error)
+      alert("Erreur lors de l'inscription")
     }
-  };
+  }
   return (
     <section className="min-h-screen flex flex-col bg-gradient-radial from-green-100 via-green-200 to-green-400 px-4">
       <HeaderRegister />
@@ -103,11 +103,11 @@ const Register = () => {
             </div>
           </fieldset>
           <p className="text-xs text-gray-700">
-            By continuing, you agree to the{" "}
+            By continuing, you agree to the{' '}
             <a href="#" className="underline">
               Terms of use
-            </a>{" "}
-            and{" "}
+            </a>{' '}
+            and{' '}
             <a href="#" className="underline">
               Privacy Policy
             </a>
@@ -120,7 +120,7 @@ const Register = () => {
             S’inscrire
           </button>
           <p className="text-sm text-gray-700">
-            Deja un compte ?{" "}
+            Deja un compte ?{' '}
             <a href="/login" className="font-semibold underline">
               Se connecter
             </a>
@@ -128,6 +128,6 @@ const Register = () => {
         </form>
       </section>
     </section>
-  );
-};
-export default Register;
+  )
+}
+export default Register

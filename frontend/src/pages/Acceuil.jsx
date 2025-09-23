@@ -1,5 +1,5 @@
-import Acceuil2 from "../components/Acceuil/AcceuilPresentation";
-import HeroWrapper from "../components/Hero/HeroWrapper";
+import Acceuil2 from '../components/Acceuil/AcceuilPresentation'
+import HeroWrapper from '../components/Hero/HeroWrapper'
 
 const Home = () => {
   return (
@@ -7,6 +7,6 @@ const Home = () => {
       <HeroWrapper />
       <Acceuil2 />
     </>
-  );
-};
-export default Home;
+  )
+}
+export default Home
