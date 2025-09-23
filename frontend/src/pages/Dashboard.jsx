@@ -61,7 +61,6 @@ export default function Dashboard() {
       <HeaderDashboard />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 grid grid-cols-1 lg:grid-cols-4 gap-6">
-        {/* Sidebar */}
         <aside className="col-span-1 bg-white/90 backdrop-blur rounded-2xl ring-1 ring-black/5 shadow-sm p-6 space-y-5">
           <div className="text-center">
             <img
@@ -115,9 +114,7 @@ export default function Dashboard() {
           </nav>
         </aside>
 
-        {/* Main */}
         <main className="col-span-1 lg:col-span-3 space-y-6">
-          {/* KPI cards */}
           <section className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="bg-white rounded-2xl p-5 shadow-sm ring-1 ring-black/5">
               <p className="text-sm text-gray-600">🌱 CO₂ économisé</p>
@@ -145,7 +142,6 @@ export default function Dashboard() {
           <DataTable />
         </main>
 
-        {/* Actions bas‑de‑page */}
         <section className="col-span-1 lg:col-span-4 mt-2">
           <section className="grid grid-cols-1 w-fit mx-auto md:grid-cols-3 gap-4">
             <div className="bg-white rounded-2xl p-4 shadow-sm ring-1 ring-black/5">
@@ -175,8 +171,6 @@ export default function Dashboard() {
           </section>
         </section>
       </div>
-
-      {/* Modales (inchangées fonctionnellement) */}
       <ProposerTrajetModal
         onClose={() => setTrajetModalOpen(false)}
         isOpen={isTrajetModalOpen}
