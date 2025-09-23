@@ -1,4 +1,5 @@
-import AvisCard from "../Avis/AvisCards";
+import useAxiosWithAuth from '../../hooks/useAxiosWithAuth'
+import AvisCard from '../Avis/AvisCards'
 
 const AcceuilPresentation = () => {
   return (
@@ -6,7 +7,7 @@ const AcceuilPresentation = () => {
       <section className="relative min-h-screen w-full bg-ecoWhite">
         <div className="mx-auto max-w-6xl px-4 py-20">
           <h2 className="text-2xl md:text-3xl font-bold text-center mb-12">
-            Nous restons fidèles à nos{" "}
+            Nous restons fidèles à nos{' '}
             <span className="text-ecoGreen">principes.</span>
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
@@ -97,6 +98,6 @@ const AcceuilPresentation = () => {
         </div>
       </footer>
     </>
-  );
-};
-export default AcceuilPresentation;
+  )
+}
+export default AcceuilPresentation

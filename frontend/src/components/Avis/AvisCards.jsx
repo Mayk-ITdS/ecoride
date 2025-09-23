@@ -1,4 +1,4 @@
-import { Star } from "lucide-react";
+import { Star } from 'lucide-react'
 
 const AvisCard = ({ text, author, location, rating }) => {
   return (
@@ -10,7 +10,7 @@ const AvisCard = ({ text, author, location, rating }) => {
           <Star
             key={i}
             size={18}
-            className={i < rating ? "fill-current" : "opacity-30"}
+            className={i < rating ? 'fill-current' : 'opacity-30'}
           />
         ))}
       </div>
@@ -18,7 +18,7 @@ const AvisCard = ({ text, author, location, rating }) => {
         — {author}, <span className="text-gray-500">{location}</span>
       </figcaption>
     </figure>
-  );
-};
+  )
+}
 
-export default AvisCard;
+export default AvisCard

@@ -7,7 +7,7 @@ const HeroSloganCovoiturages = () => {
              font-poppins font-semibold text-center max-w-[900px] mx-auto"
         >
           <span className="text-black ">
-            Trouvez votre trajet ou proposez d’en emmener d’autres.{" "}
+            Trouvez votre trajet ou proposez d’en emmener d’autres.{' '}
           </span>
         </h1>
         <p
@@ -18,6 +18,6 @@ const HeroSloganCovoiturages = () => {
         </p>
       </div>
     </div>
-  );
-};
-export default HeroSloganCovoiturages;
+  )
+}
+export default HeroSloganCovoiturages

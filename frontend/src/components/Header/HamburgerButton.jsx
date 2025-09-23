@@ -1,27 +1,17 @@
-const HamburgerButton = ({ isOpen, onToggle }) => {
+export default function HamburgerButton({ isOpen, onToggle, ariaControls }) {
   return (
     <button
-      onClick={onToggle}
-      className="md:hidden flex flex-col justify-between w-10 h-10 p-2 focus:outline-none focus:ring-2 focus:ring-ecoGreen focus:ring-offset-2"
-      aria-label={isOpen ? "Fermer le menu" : "Ouvrir le menu"}
+      type="button"
+      className="md:hidden text-white focus:outline-none focus-visible:ring focus-visible:ring-ecoGreen rounded-lg p-2"
+      aria-label={isOpen ? 'Close menu' : 'Open menu'}
       aria-expanded={isOpen}
+      aria-controls={ariaControls}
+      onClick={onToggle}
     >
-      <span
-        className={`h-0.5 w-full bg-white rounded transition-transform duration-300 ease-in-out ${
-          isOpen ? "rotate-45 translate-y-2" : ""
-        }`}
-      />
-      <span
-        className={`h-0.5 w-full bg-white rounded transition-opacity duration-300 ease-in-out ${
-          isOpen ? "opacity-0" : ""
-        }`}
-      />
-      <span
-        className={`h-0.5 w-full bg-white rounded transition-transform duration-300 ease-in-out ${
-          isOpen ? "-rotate-45 -translate-y-2" : ""
-        }`}
-      />
+      {/* Simple 3-bar icon with state animation via utility classes if desired */}
+      <span className="block w-6 h-0.5 bg-white mb-1" />
+      <span className="block w-6 h-0.5 bg-white mb-1" />
+      <span className="block w-6 h-0.5 bg-white" />
     </button>
-  );
-};
-export default HamburgerButton;
+  )
+}

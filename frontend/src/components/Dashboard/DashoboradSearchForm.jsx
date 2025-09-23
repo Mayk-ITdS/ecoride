@@ -1,5 +1,5 @@
-import SearchButton from "./SearchButton";
-import SearchFieldset from "./SearchFieldset";
+import SearchButton from './SearchButton'
+import SearchFieldset from './SearchFieldset'
 
 const SearchForm = () => {
   return (
@@ -13,6 +13,6 @@ const SearchForm = () => {
       <SearchFieldset />
       <SearchButton />
     </form>
-  );
-};
-export default SearchForm;
+  )
+}
+export default SearchForm

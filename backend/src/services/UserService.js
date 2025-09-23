@@ -1,7 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
-
+import db_pg from "../../db/postgres.js";
 const prisma = new PrismaClient();
 
 class UserService {
@@ -30,7 +30,6 @@ class UserService {
       },
     });
     if (!user) throw new Error("Utilisateur n'existe pas");
-
     const validate = await bcrypt.compare(password, user.mot_de_passe);
     if (!validate) throw new Error("Mot de passe incorrect");
     const roles = user.user_roles.map((r) => r.roles.nom);
@@ -48,6 +47,39 @@ class UserService {
       token,
       roles,
     };
+  }
+  async getUserById(userId) {
+    return db_pg.oneOrNone(
+      `
+      SELECT
+        u.id_user,
+        u.pseudo,
+        u.email,
+        u.credits,
+        u.is_suspended,
+        COALESCE(
+          ARRAY_AGG(r.nom ORDER BY r.nom)
+          FILTER (WHERE r.nom IS NOT NULL), '{}'
+        ) AS roles
+      FROM users u
+      LEFT JOIN user_roles ur ON ur.user_id = u.id_user
+      LEFT JOIN roles r       ON r.role_id  = ur.role_id
+      WHERE u.id_user = $1
+      GROUP BY u.id_user
+    `,
+      [userId]
+    );
+  }
+  async updateUser(userId, data) {
+    return prisma.users.update({
+      where: { id_user: Number(userId) },
+      data,
+      select: {
+        id_user: true,
+        pseudo: true,
+        email: true,
+      },
+    });
   }
 }
 export default new UserService();

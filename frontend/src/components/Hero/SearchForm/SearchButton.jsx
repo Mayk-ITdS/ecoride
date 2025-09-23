@@ -7,5 +7,5 @@ const SearchButton = () => (
   >
     Rechercher
   </button>
-);
-export default SearchButton;
+)
+export default SearchButton

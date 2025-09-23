@@ -1,7 +1,13 @@
-import SearchInput from "./SearchInput";
+import SearchInput from './SearchInput'
 
-const AdvancedFiltersModal = ({ open, onClose, filters, onChange }) => {
-  if (!open) return null;
+const AdvancedFiltersModal = ({
+  open,
+  onClose,
+  filters,
+  onChange,
+  onApply,
+}) => {
+  if (!open) return null
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black/50 z-50">
@@ -46,11 +52,14 @@ const AdvancedFiltersModal = ({ open, onClose, filters, onChange }) => {
         </div>
 
         <div className="mt-6 flex justify-end gap-3">
-          <button onClick={onClose} className="px-4 py-2 rounded-lg bg-gray-200 hover:bg-gray-300">
+          <button
+            onClick={onClose}
+            className="px-4 py-2 rounded-lg bg-gray-200 hover:bg-gray-300"
+          >
             Fermer
           </button>
           <button
-            onClick={onClose}
+            onClick={onApply ?? onClose}
             className="px-4 py-2 rounded-lg bg-ecoGreen text-white hover:bg-green-700"
           >
             Appliquer
@@ -58,7 +67,7 @@ const AdvancedFiltersModal = ({ open, onClose, filters, onChange }) => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default AdvancedFiltersModal;
+export default AdvancedFiltersModal
