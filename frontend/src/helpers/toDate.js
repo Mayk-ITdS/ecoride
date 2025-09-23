@@ -1,4 +1,3 @@
-// toDate.js
 export const toDate = (val) => {
   if (val instanceof Date) return val
 

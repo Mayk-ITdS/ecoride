@@ -18,7 +18,6 @@ export const findTrajets = async (req, res) => {
       return res.status(400).json({ error: "Invalid date (YYYY-MM-DD)" });
     }
 
-    // 4) log znormalizowanych filtrów
     console.log("[findTrajets] filters:", trajets);
     res.json(trajets);
   } catch (error) {

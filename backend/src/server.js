@@ -24,7 +24,6 @@ const passengerNotes = await mongo.collection("passenger_notes");
 app.use("/reviews", makeReviewRouter(passengerNotes));
 console.log("[server] namespace:", passengerNotes.namespace);
 
-// reszta tras
 app.use("/admin", adminRoutes);
 app.use("/employee", employeeRoutes);
 app.use("/participations", participationRoutes);
@@ -33,7 +32,6 @@ app.use("/trajets/status", trajetStatusRouter);
 app.use("/users", userRoutes);
 app.use("/voitures", voitureRoutes);
 app.use("/roles", rolesRouter);
-// 404 i błąd
 
 app.get("/health", (_req, res) => res.json({ ok: true }));
 

@@ -128,14 +128,11 @@ class TrajetService {
     if (!t) return null;
 
     const driverId = Number(t.id_chauffeur);
-
-    // Preferencje z Mongo (opcjonalne)
     const prefsDoc = await collection("preferences").findOne({
       id_user: driverId,
     });
     const preferences = prefsDoc?.preferences ?? { fumer: false, pets: true };
 
-    // 🔴 Opinie z Mongo: passenger_notes, po driverId
     const notes = await collection("passenger_notes")
       .find({ driverId })
       .project({ _id: 0, publicName: 1, rating: 1, message: 1 })
@@ -168,7 +165,7 @@ class TrajetService {
         places: t.nb_places,
         eco: !!t.is_electric,
       },
-      avis, // ✅ to trafia na front
+      avis,
     };
   }
   async createNew(data = {}) {
