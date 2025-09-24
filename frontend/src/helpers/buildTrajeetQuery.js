@@ -26,7 +26,6 @@ export function buildTrajetsQuery(raw = {}) {
       continue
     }
 
-    // tablice: powtórz param
     if (Array.isArray(v)) {
       v.forEach((item) => {
         if (item != null && String(item).trim() !== '')

@@ -2,7 +2,6 @@ import { useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import { Calendar, Clock, Users, Euro, Leaf } from 'lucide-react'
 
-/** Format ISO na czytelny string */
 function formatDate(iso) {
   const d = new Date(iso)
   if (Number.isNaN(d.getTime())) return String(iso ?? '')
@@ -15,7 +14,6 @@ function formatDate(iso) {
   })
 }
 
-/** Format minut na "2h 15m" */
 function formatDuration(mins) {
   const m = Number(mins) || 0
   const h = Math.floor(m / 60)
@@ -23,7 +21,6 @@ function formatDuration(mins) {
   return h ? (r ? `${h}h ${r}m` : `${h}h`) : `${m}m`
 }
 
-/** Format ceny na EUR (fallback: "12.00 €") */
 function formatPrice(p) {
   const n = Number(p)
   if (Number.isFinite(n)) {
@@ -40,7 +37,6 @@ function formatPrice(p) {
   return `${p} €`
 }
 
-/** Inicjały do avatara-placceholdera */
 function initials(name = '') {
   return (
     name
@@ -83,7 +79,6 @@ export default function RideCard({ trajet, onParticiper }) {
         hover:shadow-md`}
       aria-label={`Trajet ${trajet?.depart ?? ''} vers ${trajet?.arrivee ?? ''}`}
     >
-      {/* Header: kierowca + Éco */}
       <div className="flex items-center justify-between mb-3">
         <div className="flex items-center gap-3">
           {avatarSrc ? (
@@ -120,7 +115,6 @@ export default function RideCard({ trajet, onParticiper }) {
         </span>
       </div>
 
-      {/* Details */}
       <div className="space-y-1 mb-3 text-sm text-gray-700">
         <p>
           🚗 {trajet?.depart} → {trajet?.arrivee}
@@ -143,7 +137,6 @@ export default function RideCard({ trajet, onParticiper }) {
         </p>
       </div>
 
-      {/* Avis (MIĘDZY details a actions) */}
       <div className="mt-2 border-t pt-2">
         <h4 className="text-xs font-semibold text-gray-600 mb-1">
           Avis passagers
@@ -162,7 +155,7 @@ export default function RideCard({ trajet, onParticiper }) {
                     ⭐ {Number(a.note || 0).toFixed(1)}
                   </span>
                 </div>
-                {/* jednowierszowe ucięcie bez pluginu line-clamp */}
+
                 <p className="text-gray-600 overflow-hidden text-ellipsis whitespace-nowrap">
                   {a.commentaire}
                 </p>
@@ -180,7 +173,6 @@ export default function RideCard({ trajet, onParticiper }) {
         )}
       </div>
 
-      {/* Actions */}
       <div className="flex justify-between mt-3">
         <button
           type="button"

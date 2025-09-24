@@ -250,8 +250,6 @@ export default function DataTable() {
           </button>
         </div>
       </div>
-
-      {/* Desktop */}
       <div className="hidden md:block overflow-x-auto">
         <table className="w-full text-left border-collapse">
           <thead>
@@ -343,7 +341,6 @@ export default function DataTable() {
         </table>
       </div>
 
-      {/* Mobile */}
       <div className="block md:hidden space-y-4 mt-6">
         {paginatedData.map((v) => (
           <div
@@ -379,7 +376,6 @@ export default function DataTable() {
         ))}
       </div>
 
-      {/* Modal détail */}
       {selectedTrajet && (
         <div className="fixed inset-0 flex items-center justify-center bg-black/40">
           <div className="bg-white rounded-xl p-6 shadow-lg w-11/12 md:w-1/2">

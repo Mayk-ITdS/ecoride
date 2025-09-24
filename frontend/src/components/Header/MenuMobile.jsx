@@ -15,7 +15,6 @@ export default function MenuMobile({ isOpen, onClose, menuId }) {
   const { user, logout } = useAuthorization()
   const space = getSpaceLink(user)
 
-  // Only attach listeners when open
   useEffect(() => {
     if (!isOpen) return
 
@@ -29,12 +28,10 @@ export default function MenuMobile({ isOpen, onClose, menuId }) {
     document.addEventListener('mousedown', handleClickOutside)
     document.addEventListener('keydown', handleKeyDown)
 
-    // Lock body scroll
     const { body } = document
     const prev = body.style.overflow
     body.style.overflow = 'hidden'
 
-    // Focus first link when opened
     const firstLink = panelRef.current?.querySelector('a')
     if (firstLink) firstLink.focus()
 

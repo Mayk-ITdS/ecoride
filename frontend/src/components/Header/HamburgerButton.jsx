@@ -8,7 +8,6 @@ export default function HamburgerButton({ isOpen, onToggle, ariaControls }) {
       aria-controls={ariaControls}
       onClick={onToggle}
     >
-      {/* Simple 3-bar icon with state animation via utility classes if desired */}
       <span className="block w-6 h-0.5 bg-white mb-1" />
       <span className="block w-6 h-0.5 bg-white mb-1" />
       <span className="block w-6 h-0.5 bg-white" />
