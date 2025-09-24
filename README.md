@@ -15,7 +15,7 @@ Plateforme de **covoiturage écoresponsable**. Ce dépôt contient :
 - **Trello (Agile)** : https://trello.com/invite/b/68c2c067b25e3cf5fd59a8c1/ATTI27e2d66b9698bc865b3bfb24035f67ab5B193055/eco-ride-agile
 - **Code (GitHub)** : https://github.com/Mayk-ITdS/ecoride
 - **Maquettes & ERD** : `docs/` (ex. `docs/eco_ride_erd.svg`, `docs/figures/*.png`)
-- **Démo** : http://localhost:5173/covoiturages?depart=Toulouse&arrivee=Lyon&date=2025-09-08
+- **Démo** : https://ecoride-three.vercel.app/
 
 ---
 
