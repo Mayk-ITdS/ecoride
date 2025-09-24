@@ -1,4 +1,3 @@
-// backend/db/seedFromPgToMongo.js
 import "dotenv/config";
 import pg from "pg-promise";
 import { MongoClient } from "mongodb";
@@ -18,7 +17,7 @@ const client = new MongoClient(MONGO_URI, { maxPoolSize: 10 });
 const DEFAULT_PREFS = {
   fumer: false,
   pets: true,
-  music: "medium", // "low" | "medium" | "high"
+  music: "medium",
   chatty: "medium",
   silence: false,
   luggage: true,
@@ -26,7 +25,6 @@ const DEFAULT_PREFS = {
 
 (async () => {
   try {
-    // 1) users + roles z PG (1 wiersz = 1 user)
     const users = await db.any(`
       SELECT u.id_user, u.pseudo, u.email,
              ARRAY_AGG(r.nom ORDER BY r.role_id) AS roles
@@ -39,7 +37,6 @@ const DEFAULT_PREFS = {
 
     console.log("[seed] users:", users.length);
 
-    // 2) Mongo (Atlas)
     await client.connect();
     const mdb = client.db(MONGO_DB);
     const prefsCol = mdb.collection("preferences");
@@ -47,12 +44,10 @@ const DEFAULT_PREFS = {
 
     await prefsCol.createIndex({ id_user: 1 }, { unique: true });
 
-    // 3) Upserty do `preferences`
     const now = new Date();
     let upserts = 0;
 
     for (const u of users) {
-      // możesz lekko różnicować defaulty po roli
       const p = { ...DEFAULT_PREFS };
       if (u.roles.includes("chauffeur")) {
         p.music = "low";
@@ -70,7 +65,6 @@ const DEFAULT_PREFS = {
     }
     console.log(`[seed] preferences upserts: ${upserts}`);
 
-    // 4) (opcjonalnie) zasiej kilka opinii dla 3 pierwszych kierowców
     const someDrivers = users
       .filter((u) => u.roles.includes("chauffeur"))
       .slice(0, 3);

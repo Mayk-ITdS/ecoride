@@ -13,13 +13,10 @@ export default function Header() {
   const onToggle = useCallback(() => setIsOpen((prev) => !prev), [])
   const onClose = useCallback(() => setIsOpen(false), [])
 
-  // Close on route changes (e.g., Link click)
   useEffect(() => {
     onClose()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location.pathname])
 
-  // Close mobile menu when resizing to desktop breakpoint (Tailwind md=768px)
   useEffect(() => {
     const onResize = () => {
       if (window.innerWidth >= 768) setIsOpen(false)
