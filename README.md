@@ -116,7 +116,7 @@ DATABASE_URL="postgresql://ecoride:root@localhost:5432/ecoride_db"
 
 # --- Local ---
 
-# MONGODB_URI="mongodb://root@127.0.0.1:27017"
+MONGODB_URI="mongodb://root@127.0.0.1:27017"
 
 # --- Atlas (exemple, remplace <user>:<pass> par tes vrais) ---
 
