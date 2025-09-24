@@ -1,4 +1,3 @@
-// migrate.js
 import { Client as PgClient } from "pg";
 import { MongoClient } from "mongodb";
 
@@ -11,7 +10,6 @@ const {
 
 const BATCH_SIZE = parseInt(BATCH, 10);
 
-// Kierowcy: z roli + z trajets, bez NULL-i
 const DRIVERS_SQL = `
 WITH drivers AS (
   SELECT DISTINCT u.id_user
@@ -34,8 +32,7 @@ OFFSET $1 LIMIT $2;
 `;
 
 async function ensureCollections(db) {
-  // driver_preferences: jeśli nie istnieje, utwórz (walidator toleruje int/long/double dla pickupRadiusKm)
-  try {
+  
     await db.createCollection("driver_preferences", {
       validator: {
         $jsonSchema: {
@@ -94,14 +91,11 @@ async function ensureCollections(db) {
       validationLevel: "strict",
     });
   } catch (_) {
-    /* już istnieje – ok */
-  }
 
   await db
     .collection("driver_preferences")
     .createIndex({ driverId: 1 }, { unique: true });
 
-  // passenger_notes: tworzymy jeśli brak (bez seedów)
   try {
     await db.createCollection("passenger_notes", {
       validator: {
@@ -151,7 +145,7 @@ async function ensureCollections(db) {
       validationLevel: "strict",
     });
   } catch (_) {
-    /* już istnieje – ok */
+   
   }
 }
 
@@ -173,7 +167,7 @@ async function main() {
     const { rows } = await pg.query(DRIVERS_SQL, [offset, BATCH_SIZE]);
     if (!rows.length) break;
 
-    // Zamień na inty i odfiltruj śmieci
+    
     const ids = rows
       .map((r) =>
         typeof r.id_user === "number" ? r.id_user : parseInt(r.id_user, 10)
@@ -181,7 +175,7 @@ async function main() {
       .filter((n) => Number.isInteger(n));
 
     if (ids.length === 0) {
-      // nic do zrobienia w tej partii
+     
       offset += rows.length;
       continue;
     }
@@ -194,7 +188,7 @@ async function main() {
       musicStyle: "various",
       maxPassengers: 3,
       luggageSize: "medium",
-      pickupRadiusKm: 10, // int/double – validator już akceptuje oba
+      pickupRadiusKm: 10, 
       languages: ["fr"],
       blockedPassengers: [],
       notes: null,
