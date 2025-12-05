@@ -16,9 +16,24 @@ import rolesRouter from "./routes/rolesRouter.js";
 const app = express();
 
 app.disable("x-powered-by");
-app.use(cors());
+const allowedOrigins = [
+  "http://127.0.0.1:5173",
+  "http://localhost:5173",
+  "https://ecoride-three.vercel.app",
+];
+
+const corsOptions = {
+  origin(origin, callback) {
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.includes(origin)) return callback(null, true);
+    return callback(new Error("Not allowed by CORS"));
+  },
+  optionsSuccessStatus: 204,
+};
+
 app.use(cors(corsOptions));
-app.options("/*", cors(corsOptions));
+app.options("/api/*", cors(corsOptions));
+
 app.use(express.json());
 
 app.use((req, _res, next) => {
