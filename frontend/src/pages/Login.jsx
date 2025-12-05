@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import HeaderRegister from '@/components/Register/HeaderRegister'
 import useAuthorization from '../hooks/useAuthorization'
-
+import api from '../services/api'
 const getRoleHomePath = (user) => {
   const role = user?.role || user?.roles?.[0]
   if (role === 'admin') return '/admin'
@@ -26,23 +26,22 @@ const Login = () => {
     e.preventDefault()
     if (loading) return
     setLoading(true)
+
     try {
-      const { data } = await axios.post('/api/users/login', {
+      console.log('Api Data: ', 'VITE_API_URL', import.meta.env.VITE_API_URL)
+      const data = await api.post('/users/login', {
         email: form.email,
         password: form.password,
       })
+      const { token, user, roles } = data
+      const userWithRoles = { ...user, roles }
 
-      // zakładam, że backend zwraca: { token, user }
-      const { token, user } = data
+      await login(token, userWithRoles)
 
-      // zapisz sesję przez Twój hook
-      await login(token, user)
-
-      // redirect wg roli
-      navigate(getRoleHomePath(user), { replace: true })
+      navigate(getRoleHomePath(userWithRoles), { replace: true })
     } catch (error) {
       console.error('Erreur login:', error)
-      alert('Identifiants invalides')
+      alert(error.response?.data?.error || 'Identifiants invalides')
     } finally {
       setLoading(false)
     }
