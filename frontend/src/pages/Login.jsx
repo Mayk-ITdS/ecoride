@@ -38,7 +38,6 @@ const Login = () => {
       await login(token, userWithRoles)
 
       navigate(getRoleHomePath(userWithRoles), { replace: true })
-      navigate(getRoleHomePath(userWithRoles), { replace: true })
     } catch (error) {
       console.error('Erreur login:', error.response?.data || error)
       alert(error.response?.data?.error || 'Identifiants invalides')

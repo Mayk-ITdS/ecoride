@@ -17,7 +17,7 @@ const app = express();
 
 app.disable("x-powered-by");
 app.use(cors());
-app.options("*", cors());
+app.options("/*", cors());
 app.use(express.json());
 
 app.use((req, _res, next) => {
