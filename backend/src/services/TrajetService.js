@@ -64,11 +64,12 @@ class TrajetService {
 
     const mapped = await Promise.all(
       rows.map(async (trajet) => {
+        const driverId = trajet.id_chauffeur;
         const userData = await collection("preferences").findOne({
-          id_user: trajet.driverId,
+          id_user: driverId,
         });
         const avis = await collection("passenger_notes")
-          .find({ id_chauffeur: trajet.driverId })
+          .find({ driverId })
           .toArray();
         return {
           id: trajet.id_trajet,
@@ -127,7 +128,7 @@ class TrajetService {
     const t = await db_pg.oneOrNone(sql, [id_trajet]);
     if (!t) return null;
 
-    const driverId = Number(t.id_chauffeur);
+    const driverId = Number(t.driverId);
     const prefsDoc = await collection("preferences").findOne({
       id_user: driverId,
     });
