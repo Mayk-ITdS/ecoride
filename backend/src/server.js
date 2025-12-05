@@ -16,7 +16,8 @@ import rolesRouter from "./routes/rolesRouter.js";
 const app = express();
 
 app.disable("x-powered-by");
-app.use(cors({ origin: process.env.CORS_ORIGIN?.split(",") || true }));
+app.use(cors());
+app.options("*", cors());
 app.use(express.json());
 
 app.use((req, _res, next) => {
@@ -66,7 +67,6 @@ app.use("/api/reviews", makeReviewRouter(passengerNotes));
 app.use("/api/admin", adminRoutes);
 app.use("/api/employee", employeeRoutes);
 app.use("/api/participations", participationRoutes);
-
 app.use("/api/trajets/status", trajetStatusRouter);
 app.use("/api/users", userRoutes);
 app.use("/api/voitures", voitureRoutes);

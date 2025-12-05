@@ -1,11 +1,8 @@
 import { useEffect } from 'react'
 import useAuthorization from './useAuthorization'
-import { useLocation, useNavigate } from 'react-router-dom'
 import api from '../services/api'
 export default function useAxiosWithAuth() {
   const { token, logout } = useAuthorization()
-  const navigate = useNavigate()
-  const location = useLocation()
 
   useEffect(() => {
     const reqId = api.interceptors.request.use(
@@ -39,6 +36,7 @@ export default function useAxiosWithAuth() {
       api.interceptors.request.eject(reqId)
       api.interceptors.response.eject(resId)
     }
-  }, [token, logout, navigate, location.pathname])
+  }, [token, logout])
+
   return api
 }
