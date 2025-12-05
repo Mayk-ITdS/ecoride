@@ -6,19 +6,28 @@ const prisma = new PrismaClient();
 
 class UserService {
   async register({ pseudo, email, password }) {
+    console.log("UserService.register input:", { pseudo, email });
     const existing = await prisma.users.findUnique({ where: { email } });
+    console.log("Existing by email?", existing);
     if (existing) throw new Error("Email déjà utilisé");
 
     const hashed = await bcrypt.hash(password, 10);
-    const newUser = await prisma.users.create({
-      data: { pseudo, email, mot_de_passe: hashed },
-    });
+    try {
+      const newUser = await prisma.users.create({
+        data: { pseudo, email, mot_de_passe: hashed },
+      });
 
-    return {
-      id: newUser.id_user,
-      pseudo: newUser.pseudo,
-      email: newUser.email,
-    };
+      console.log("User created in DB:", newUser);
+
+      return {
+        id: newUser.id_user,
+        pseudo: newUser.pseudo,
+        email: newUser.email,
+      };
+    } catch (e) {
+      console.error("Prisma create error:", e);
+      throw e;
+    }
   }
   async login(email, password) {
     const user = await prisma.users.findUnique({

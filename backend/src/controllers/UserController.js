@@ -8,17 +8,24 @@ class UserController {
   async register(req, res) {
     try {
       const { pseudo, email, password } = req.body;
+      console.log("Register attempt:", { pseudo, email });
       const user = await UserService.register({ pseudo, email, password });
+      console.log("Register success:", user);
       res.status(201).json({ message: "Utilisateur créé avec succès", user });
     } catch (error) {
       console.error("Erreur register", error);
-      if (error.code === "23505") {
-        return res.status(409).json({ error: "Email déjà utilisé" });
+      if (error.code === "P2002") {
+        return res.status(409).json({ error: "Email ou pseudo déjà utilisé" });
       }
-      res.status(500).json({ error: "Erreur serveur" });
+      console.error("Erreur register >>>", JSON.stringify(error, null, 2));
+      console.error("Stack >>>", error.stack);
+      res.status(500).json({
+        error: error.message || "Erreur serveur",
+        code: error.code || null,
+        meta: error.meta || null,
+      });
     }
   }
-
   async login(req, res) {
     const { email, password } = req.body;
 

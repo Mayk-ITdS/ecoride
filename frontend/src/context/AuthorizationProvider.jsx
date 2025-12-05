@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo } from 'react'
 import AuthContext from './AuthContext'
 import axios from 'axios'
-
+import api from '../services/api'
 export default function AuthorizationProvider({ children }) {
   const [token, setToken] = useState(localStorage.getItem('token') || null)
   const [user, setUser] = useState(() => {
@@ -13,14 +13,6 @@ export default function AuthorizationProvider({ children }) {
     }
   })
   const [ready, setReady] = useState(false)
-
-  const api = useMemo(
-    () =>
-      axios.create({
-        baseURL: import.meta.env?.VITE_API_URL ?? '/api',
-      }),
-    [],
-  )
 
   useEffect(() => {
     const run = async () => {

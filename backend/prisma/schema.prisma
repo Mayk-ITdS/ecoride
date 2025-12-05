@@ -52,10 +52,13 @@ model participations {
   id_trajet        Int?
   id_passager      Int?
   date_reservation DateTime? @default(now()) @db.Timestamp(6)
+  status           String    @default("en_attente") @db.VarChar(20)
   users            users?    @relation(fields: [id_passager], references: [id_user], onDelete: Cascade, onUpdate: NoAction)
   trajets          trajets?  @relation(fields: [id_trajet], references: [id_trajet], onDelete: Cascade, onUpdate: NoAction)
 
   @@unique([id_trajet, id_passager])
+  @@unique([id_trajet, id_passager], map: "participations_uni")
+  @@index([id_trajet, status])
 }
 
 model roles {
@@ -106,6 +109,7 @@ model users {
   mot_de_passe     String
   date_inscription DateTime?        @default(now()) @db.Timestamp(6)
   credits          Int?             @default(20)
+  is_suspended     Boolean          @default(false)
   paiements        paiements[]
   participations   participations[]
   trajets          trajets[]
