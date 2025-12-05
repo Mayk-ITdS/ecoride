@@ -1,15 +1,7 @@
 import { Link, useNavigate, useLocation } from 'react-router-dom'
 import useAuthorization from '../../hooks/useAuthorization'
 
-function getSpaceLink(user) {
-  if (!user) return null
-  const role = user.role || user?.roles?.[0]
-  if (role === 'admin') return { to: '/admin', label: 'Espace administratif' }
-  if (role === 'employee') return { to: '/employee', label: 'Espace employé' }
-  return { to: '/dashboard', label: 'Espace personnel' }
-}
-
-export default function MenuDesktop() {
+const MenuDesktop = () => {
   const { user, logout } = useAuthorization()
   const navigate = useNavigate()
   const location = useLocation()
@@ -21,8 +13,6 @@ export default function MenuDesktop() {
       if (location.pathname !== '/login') navigate('/login', { replace: true })
     }
   }
-
-  const space = getSpaceLink(user)
 
   return (
     <nav
@@ -38,11 +28,9 @@ export default function MenuDesktop() {
 
       {user ? (
         <>
-          {space && (
-            <Link to={space.to} className="hover:text-ecoGreen transition">
-              {space.label}
-            </Link>
-          )}
+          <Link to="/dashboard" className="hover:text-ecoGreen transition">
+            Espace&nbsp;Personnel
+          </Link>
           <button
             type="button"
             onClick={handleLogout}
@@ -59,3 +47,4 @@ export default function MenuDesktop() {
     </nav>
   )
 }
+export default MenuDesktop

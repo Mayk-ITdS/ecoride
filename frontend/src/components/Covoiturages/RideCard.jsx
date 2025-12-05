@@ -29,9 +29,7 @@ function formatPrice(p) {
         style: 'currency',
         currency: 'EUR',
       }).format(n)
-    } catch {
-      /* noop */
-    }
+    } catch {}
     return `${n.toFixed(2)} €`
   }
   return `${p} €`

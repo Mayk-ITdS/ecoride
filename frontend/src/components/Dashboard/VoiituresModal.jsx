@@ -141,9 +141,7 @@ export default function VoituresModal({ isOpen, onClose, userId, role }) {
           isOpen={isAddCarOpen}
           onClose={() => setAddCarOpen(false)}
           userId={userId}
-          onAdded={() => {
-            /* rafraîchis ta liste si besoin */
-          }}
+          onAdded={() => {}}
         />
       </div>
     </div>

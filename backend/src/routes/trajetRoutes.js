@@ -1,3 +1,4 @@
+import { getTripsData } from "../controllers/TrajetController.js";
 import { verifyToken } from "../middleware/authentication.js";
 import express from "express";
 import ParticipationController from "../controllers/ParticipationController.js";
@@ -6,7 +7,6 @@ import {
   getTrajetById,
   createTrajet,
   listPassengers,
-  getTripsData,
 } from "../controllers/TrajetController.js";
 
 const router = express.Router();
