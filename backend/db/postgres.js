@@ -8,6 +8,18 @@ let db_pg;
 
 if (hasDatabaseUrl) {
   const connectionString = process.env.DATABASE_URL;
+  try {
+    const url = new URL(connectionString);
+    console.log(
+      "[db_pg] Using DATABASE_URL. host =",
+      url.host,
+      "db =",
+      url.pathname
+    );
+  } catch (e) {
+    console.error("[db_pg] Invalid DATABASE_URL:", connectionString);
+  }
+
   db_pg = pgp({
     connectionString,
     ssl:
@@ -15,7 +27,6 @@ if (hasDatabaseUrl) {
         ? { rejectUnauthorized: false }
         : undefined,
   });
-  console.log("[db_pg] Using DATABASE_URL for Postgres connection");
 } else {
   db_pg = pgp({
     host: process.env.PG_HOST || "localhost",
