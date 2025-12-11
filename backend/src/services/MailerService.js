@@ -1,5 +1,5 @@
 import nodemailer from "nodemailer";
-import db from "../../db/postgres.js";
+import db_pg from "../../db/postgres.js";
 
 const transporter = nodemailer.createTransport({
   host: process.env.SMTP_HOST,
@@ -62,12 +62,8 @@ L’équipe EcoRide`;
 }
 
 class MailerService {
-  /**
-   * Wysyła MAILE do POTWIERDZONYCH pasażerów tego kursu (status 'confirmé')
-   * – prośba o wystawienie opinii (po "terminer").
-   */
   async sendTripFinishedEmails(trajetId) {
-    const rows = await db.any(
+    const rows = await db_pg.any(
       `
       SELECT 
         u.email  AS passager_email,
@@ -97,7 +93,7 @@ class MailerService {
     return rows.length;
   }
   async sendTripReminderEmails(trajetId) {
-    const rows = await db.any(
+    const rows = await db_pg.any(
       `
       SELECT 
         u.email  AS passager_email,

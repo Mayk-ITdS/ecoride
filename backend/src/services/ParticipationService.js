@@ -1,9 +1,9 @@
 import { getStatusIdMap, ensure } from "./statusHelpers.js";
-import db from "../../db/postgres.js";
+import db_pg from "../../db/postgres.js";
 
 class ParticipationService {
   async participerAuTrajet({ userId, trajetId }) {
-    const trajet = await db.oneOrNone(
+    const trajet = await db_pg.oneOrNone(
       `SELECT id_trajet, id_chauffeur, places_disponibles, prix
        FROM trajets
        WHERE id_trajet = $1`,
@@ -18,7 +18,7 @@ class ParticipationService {
     const places = trajet.places_disponibles ?? 0;
     if (places <= 0) throw new Error("Aucune place disponible");
 
-    const user = await db.oneOrNone(
+    const user = await db_pg.oneOrNone(
       `SELECT id_user, credits FROM users WHERE id_user = $1`,
       [userId]
     );
@@ -197,14 +197,14 @@ class ParticipationService {
     });
   }
   async listPassengers({ trajetId, requesterId }) {
-    const own = await db.oneOrNone(
+    const own = await db_pg.oneOrNone(
       `SELECT id_trajet, id_chauffeur FROM trajets WHERE id_trajet=$1`,
       [trajetId]
     );
     if (!own) throw new Error("Trajet introuvable");
     if (own.id_chauffeur !== requesterId) throw new Error("Interdit");
 
-    const rows = await db.any(
+    const rows = await db_pg.any(
       `
       SELECT p.id_participation, p.status, u.pseudo
       FROM participations p
@@ -225,7 +225,7 @@ class ParticipationService {
     if (!["confirmé", "refusé"].includes(status))
       throw new Error("Status invalide (confirmé|refusé)");
 
-    return db.tx(async (t) => {
+    return db_pg.tx(async (t) => {
       const row = await t.oneOrNone(
         `
         SELECT p.id_participation, p.status, p.id_passager, p.id_trajet,

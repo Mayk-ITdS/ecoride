@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import useAxiosWithAuth from '../../hooks/useAxiosWithAuth'
-import useAuthorization from '../../hooks/useAuthorization'
 export default function ProposerTrajetModal({ isOpen, onClose }) {
   const [showNewCarForm, setShowNewCarForm] = useState(false)
   const { user } = useAuthorization()

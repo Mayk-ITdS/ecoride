@@ -1,6 +1,5 @@
 import { collection } from "../../db/mongo.js";
 import db_pg from "../../db/postgres.js";
-
 class TrajetService {
   async findManyWithFilters(
     depart,

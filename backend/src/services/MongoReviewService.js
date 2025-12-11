@@ -1,4 +1,4 @@
-import db from "../../db/postgres.js";
+import db_pg from "../../db_pg/postgres.js";
 import mongo from "../../db/mongo.js";
 function has3Sentences(text = "") {
   const sentences = text
@@ -51,7 +51,7 @@ class ReviewService {
 
     const enriched = [];
     for (const r of driverReviews) {
-      const meta = await db.oneOrNone(
+      const meta = await db_pg.oneOrNone(
         `SELECT u.pseudo AS chauffeur, t.depart_ville, t.arrivee_ville, t.depart_ts
          FROM trajets t JOIN users u ON u.id_user=t.id_chauffeur
          WHERE t.id_trajet=$1`,
