@@ -1,12 +1,12 @@
-import db from "../../db/postgres.js";
+import db_pg from "../../db/postgres.js";
 import mongo from "../../db/mongo.js";
 
 class AdminService {
   async getMetrics() {
-    const [{ count: users_total }] = await db.any(
+    const [{ count: users_total }] = await db_pg.any(
       `SELECT COUNT(*)::int AS count FROM users`
     );
-    const [{ count: trips_total }] = await db.any(
+    const [{ count: trips_total }] = await db_pg.any(
       `SELECT COUNT(*)::int AS count FROM trajets`
     );
     const pending = await mongo
@@ -19,7 +19,7 @@ class AdminService {
     };
   }
   async listUsers() {
-    const rows = await db.any(`
+    const rows = await db_pg.any(`
       SELECT u.id_user, u.pseudo, u.email, array_agg(r.nom) AS roles
       FROM users u
       LEFT JOIN user_roles ur ON ur.user_id=u.id_user

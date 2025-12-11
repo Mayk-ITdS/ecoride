@@ -16,7 +16,23 @@ import rolesRouter from "./routes/rolesRouter.js";
 const app = express();
 
 app.disable("x-powered-by");
-app.use(cors({ origin: process.env.CORS_ORIGIN?.split(",") || true }));
+const allowedOrigins = [
+  "http://127.0.0.1:5173",
+  "http://localhost:5173",
+  "https://ecoride-three.vercel.app",
+];
+
+const corsOptions = {
+  origin(origin, callback) {
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.includes(origin)) return callback(null, true);
+    return callback(new Error("Not allowed by CORS"));
+  },
+  optionsSuccessStatus: 204,
+};
+
+app.use(cors(corsOptions));
+
 app.use(express.json());
 
 app.use((req, _res, next) => {
@@ -66,7 +82,6 @@ app.use("/api/reviews", makeReviewRouter(passengerNotes));
 app.use("/api/admin", adminRoutes);
 app.use("/api/employee", employeeRoutes);
 app.use("/api/participations", participationRoutes);
-
 app.use("/api/trajets/status", trajetStatusRouter);
 app.use("/api/users", userRoutes);
 app.use("/api/voitures", voitureRoutes);

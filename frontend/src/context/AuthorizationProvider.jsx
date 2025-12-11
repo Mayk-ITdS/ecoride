@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo } from 'react'
 import AuthContext from './AuthContext'
-import axios from 'axios'
 import api from '../services/api'
+
 export default function AuthorizationProvider({ children }) {
   const [token, setToken] = useState(localStorage.getItem('token') || null)
   const [user, setUser] = useState(() => {

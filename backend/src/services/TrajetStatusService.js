@@ -1,4 +1,4 @@
-import db from "../../db/postgres.js";
+import db_pg from "../../db/postgres.js";
 import { getStatusIdMap, ensure } from "./statusHelpers.js";
 import ReviewService from "./MongoReviewService.js";
 
@@ -14,7 +14,7 @@ class TrajetStatusService {
   }
 
   async confirmer({ trajetId, driverId }) {
-    return db.tx(async (t) => {
+    return db_pg.tx(async (t) => {
       const st = await getStatusIdMap(t);
       const trip = await this._loadTripForUpdate(t, trajetId);
       ensure(trip, "Trajet introuvable");
@@ -31,7 +31,7 @@ class TrajetStatusService {
   }
 
   async demarrer({ trajetId, driverId }) {
-    return db.tx(async (t) => {
+    return db_pg.tx(async (t) => {
       const st = await getStatusIdMap(t);
       const trip = await this._loadTripForUpdate(t, trajetId);
       ensure(trip, "Trajet introuvable");
@@ -48,7 +48,7 @@ class TrajetStatusService {
   }
 
   async terminer({ trajetId, driverId }) {
-    return db.tx(async (t) => {
+    return db_pg.tx(async (t) => {
       const st = await getStatusIdMap(t);
       const trip = await this._loadTripForUpdate(t, trajetId);
       ensure(trip, "Trajet introuvable");

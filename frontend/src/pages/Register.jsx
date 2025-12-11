@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import HeaderRegister from '@/components/Register/HeaderRegister'
-import axios from 'axios'
+import api from '../services/api'
 
 const Register = () => {
   const [form, setForm] = useState({
@@ -20,7 +20,7 @@ const Register = () => {
       return
     }
     try {
-      const response = await axios.post(`/api/users/register`, {
+      const response = await api.post(`/users/register`, {
         pseudo: form.pseudo,
         email: form.email,
         password: form.password,
