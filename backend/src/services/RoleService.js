@@ -1,3 +1,4 @@
+import db_pg from "../../db/postgres.js";
 class RoleService {
   async getRoleIdByName(name) {
     const r = await db_pg.oneOrNone(`SELECT role_id FROM roles WHERE nom=$1`, [
