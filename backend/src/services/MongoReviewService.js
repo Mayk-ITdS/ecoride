@@ -1,4 +1,4 @@
-import db_pg from "../../db_pg/postgres.js";
+import db_pg from "../../db/postgres.js";
 import mongo from "../../db/mongo.js";
 function has3Sentences(text = "") {
   const sentences = text
