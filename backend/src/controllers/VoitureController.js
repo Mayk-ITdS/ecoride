@@ -1,3 +1,4 @@
+import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import VoitureService from "../services/VoitureService.js";
 
 class VoitureController {
@@ -10,9 +11,20 @@ class VoitureController {
       });
       res.status(201).json(voiture);
     } catch (err) {
-      console.error("Erreur:", err);
-      res.status(400).json({ message: err.message });
+      if (
+        err instanceof PrismaClientKnownRequestError &&
+        err.code === "P2002"
+      ) {
+        return res
+          .status(409)
+          .json({
+            message: "Immatriculation dejà existante",
+            field: "immatricueleation",
+          });
+      }
     }
+    console.error(e);
+    req.status(500).json({ message: "Internal server error" });
   }
 
   async getVoituresByUser(req, res) {

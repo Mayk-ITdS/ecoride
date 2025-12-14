@@ -17,7 +17,9 @@ export const findTrajets = async (req, res) => {
     if (trajets.date && Number.isNaN(new Date(trajets.date).getTime())) {
       return res.status(400).json({ error: "Invalid date (YYYY-MM-DD)" });
     }
-
+    if (!trajets || trajets.length === 0) {
+      return res.status(404).json({ error: "No trajets found" });
+    }
     console.log("[findTrajets] filters:", trajets);
     res.json(trajets);
   } catch (error) {

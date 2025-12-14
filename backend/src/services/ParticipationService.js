@@ -27,7 +27,7 @@ class ParticipationService {
     const prixNet = Number(trajet.prix) - 2;
     if (user.credits < 2) throw new Error("Crédits insuffisants");
 
-    return db.tx(async (t) => {
+    return db_pg.tx(async (t) => {
       const exists = await t.oneOrNone(
         `SELECT 1 FROM participations WHERE id_trajet = $1 AND id_passager = $2`,
         [trajetId, userId]
@@ -45,7 +45,7 @@ class ParticipationService {
     });
   }
   async annulerParPassager({ participationId, userId }) {
-    return db.tx(async (t) => {
+    return db_pg.tx(async (t) => {
       const st = await getStatusIdMap(t);
       const row = await t.oneOrNone(
         `SELECT p.id_participation, p.id_passager, p.id_trajet,
@@ -140,7 +140,7 @@ class ParticipationService {
     });
   }
   async updateParticipationStatus({ participationId, status, byUserId }) {
-    return db.tx(async (t) => {
+    return db_pg.tx(async (t) => {
       const row = await t.oneOrNone(
         `SELECT p.id_participation, p.status, p.id_trajet, 
               t.id_chauffeur, t.places_disponibles, t.prix, p.id_passager
