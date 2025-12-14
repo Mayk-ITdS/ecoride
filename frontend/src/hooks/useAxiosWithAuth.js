@@ -1,9 +1,10 @@
 import { useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import useAuthorization from './useAuthorization'
 import api from '../services/api'
 export default function useAxiosWithAuth() {
   const { token, logout } = useAuthorization()
-
+  const navigate = useNavigate()
   useEffect(() => {
     const reqId = api.interceptors.request.use(
       (config) => {
@@ -11,7 +12,6 @@ export default function useAxiosWithAuth() {
         if (token) headers.Authorization = `Bearer ${token}`
         else delete headers.Authorization
         config.headers = headers
-
         return {
           ...config,
           headers,

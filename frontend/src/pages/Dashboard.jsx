@@ -22,7 +22,6 @@ export default function Dashboard() {
 
   const dbToUiRole = (rolesArr = []) =>
     rolesArr.includes('chauffeur') ? 'passager+chauffeur' : 'passager'
-  const uiToDbRole = (ui) => (ui === 'passager' ? 'passager' : 'chauffeur')
 
   useEffect(() => {
     let alive = true
@@ -46,6 +45,7 @@ export default function Dashboard() {
     setRoleSaving(true)
     try {
       await api.patch('/roles/me', { role: nextUiRole })
+      console.log('changing role to', nextUiRole)
     } catch (err) {
       console.error('set role failed:', err?.response?.data || err.message)
       setRole(prev)

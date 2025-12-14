@@ -65,7 +65,6 @@ export default function AjouterVoitureForm({ onSuccess, onCancel }) {
           'La date de première immatriculation ne peut pas être dans le futur.',
         )
       }
-
       const payload = {
         marque: formData.marque?.trim(),
         modele: formData.modele?.trim(),
@@ -82,6 +81,15 @@ export default function AjouterVoitureForm({ onSuccess, onCancel }) {
       const res = await api.post('/voitures', payload)
       onSuccess?.(res.data)
     } catch (err) {
+      if (
+        err.response?.status === 409 &&
+        err.response?.data?.field === 'immatricueleation'
+      ) {
+        setError('immatruiculation', {
+          type: 'manual',
+          message: 'Une voiture avec cette immatriculation existe déjà.',
+        })
+      }
       console.error(err)
       setError(
         err?.response?.data?.error || err.message || 'Une erreur est survenue.',

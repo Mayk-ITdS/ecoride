@@ -1,8 +1,9 @@
 import { useState } from 'react'
 import HeaderRegister from '@/components/Register/HeaderRegister'
 import api from '../services/api'
-
+import { useNavigate } from 'react-router-dom'
 const Register = () => {
+  const navigate = useNavigate()
   const [form, setForm] = useState({
     pseudo: '',
     email: '',
@@ -27,6 +28,7 @@ const Register = () => {
       })
       console.log('User created:', response.data)
       alert('Inscription réussie !')
+      navigate('/dashboard')
     } catch (error) {
       console.error('Erreur register:', error)
       alert("Erreur lors de l'inscription")
