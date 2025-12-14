@@ -142,10 +142,11 @@ class ParticipationService {
   async updateParticipationStatus({ participationId, status, byUserId }) {
     return db_pg.tx(async (t) => {
       const row = await t.oneOrNone(
-        `SELECT p.id_participation, p.status, p.id_trajet, 
+        `SELECT p.id_participation, s.status, p.id_trajet, 
               t.id_chauffeur, t.places_disponibles, t.prix, p.id_passager
        FROM participations p
        JOIN trajets t ON t.id_trajet = p.id_trajet
+       JOIN status_trajet s on s.status_id = t.status_id
        WHERE p.id_participation=$1
        FOR UPDATE`,
         [participationId]
@@ -173,7 +174,7 @@ class ParticipationService {
           [row.id_trajet]
         );
         const updated = await t.one(
-          `UPDATE participations SET status='confirmé' WHERE id_participation=$1
+          `UPDATE status_trajet SET status='confirmé' WHERE id_participation=$1
          RETURNING id_participation, status`,
           [participationId]
         );
@@ -254,7 +255,7 @@ class ParticipationService {
         if (u.credits < 2) throw new Error("Crédits insuffisants");
 
         await t.none(
-          `UPDATE users SET credits = credits - 2 WHERE id_user=$2`,
+          `UPDATE users SET credits = credits - $1 WHERE id_user=$2`,
           [prixNet, row.id_passager]
         );
         await t.none(

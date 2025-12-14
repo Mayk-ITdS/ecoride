@@ -33,7 +33,7 @@ export default function DataTable() {
   const reload = useCallback(async () => {
     const { data } = await api.get(`/trajets/mine`)
     const mapped = data.map((t) => {
-      const rawStatus = (t.statut ?? t.status ?? 'en_attente')?.toLowerCase()
+      const rawStatus = (t.status ? t.status : 'en_attente')?.toLowerCase()
       const roleDisplay =
         t.role_dans_trajet === 'chauffeur' ? 'Chauffeur' : 'Passager'
       const roleValue =

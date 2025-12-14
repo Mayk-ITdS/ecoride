@@ -104,7 +104,6 @@ export default function AdminReviews() {
           </tbody>
         </table>
 
-        {/* pagination */}
         <div className="flex items-center justify-between mt-4">
           <div className="text-sm text-gray-600">
             Page {page} / {pages} — {items.length} avis
