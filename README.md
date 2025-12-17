@@ -1,53 +1,171 @@
-# EcoRide — MVP (FR)
+# EcoRide
 
-Plateforme de **covoiturage écoresponsable**. Ce dépôt contient :
+EcoRide is an eco-friendly carpooling platform MVP designed to promote sustainable transportation by connecting drivers and passengers for shared rides. This project demonstrates a modern, user-friendly application with a focus on green initiatives.
 
-- **frontend/** (React + Vite + Tailwind)
-- **backend/** (Node.js + Express)
-- **docs/** (maquettes, ERD, annexes)
+## Features
 
-> Objectif : démontrer un MVP cohérent (UX, API, données) avec un positionnement **moderne, convivial et “éco”**.
+- **User Management**: Registration, login, and role-based access (Admin, Employee, Driver, Passenger)
+- **Trip Management**: Create, search, and manage carpool trips (trajets)
+- **Vehicle Management**: Add and manage vehicles for drivers
+- **Reviews and Ratings**: Users can leave reviews for trips
+- **Dashboards**: Separate dashboards for admins, employees, and users
+- **Authentication**: JWT-based authentication with secure password hashing
+- **Multi-Database Support**: Uses PostgreSQL for relational data and MongoDB for flexible data like reviews
+- **Responsive UI**: Built with React and Tailwind CSS for a modern, mobile-friendly interface
 
----
+## Tech Stack
 
-## Liens utiles
+### Backend
 
-- **Trello (Agile)** : https://trello.com/invite/b/68c2c067b25e3cf5fd59a8c1/ATTI27e2d66b9698bc865b3bfb24035f67ab5B193055/eco-ride-agile
-- **Code (GitHub)** : https://github.com/Mayk-ITdS/ecoride
-- **Maquettes & ERD** : `docs/` (ex. `docs/eco_ride_erd.svg`, `frontend/publique/ecoride_maq_01*.png`)
-- **Démo** : https://ecoride-three.vercel.app/
+- **Node.js** with **Express.js** for the server
+- **Prisma** as ORM for database management
+- **PostgreSQL** for relational data
+- **MongoDB** for NoSQL data (e.g., reviews)
+- **JWT** for authentication
+- **bcrypt** for password hashing
+- **CORS** for cross-origin requests
 
----
+### Frontend
 
-## Comptes de test
+- **React** with **Vite** for fast development and building
+- **Tailwind CSS** for styling
+- **React Router** for navigation
+- **Axios** for API calls
+- **Recharts** for data visualization
+- **Lucide React** for icons
 
-**admin** : admin@ecoride.fr / password="studi"
+### Development Tools
 
-**Employé** : rubio@studi.fr / password="studi" (rôle employee)
+- **ESLint** and **Prettier** for code linting and formatting
+- **Vitest** for testing
+- **Nodemon** for backend development
 
-**Chauffeur** : conducteur01@demo.fr / password="studi"
+## Prerequisites
 
-**Passager** : passager01@demo.fr / password="studi"
+Before running the project, ensure you have the following installed:
 
-Vous pouvez aussi créer un compte puis affecter un rôle via l’UI. En prod, changez les mots de passe.
+- **Node.js** (version 18 or higher)
+- **npm** or **yarn**
+- **PostgreSQL** database
+- **MongoDB** database
+- **Git** for version control
 
-### Sécurité & bonnes pratiques (résumé)
+## Installation
 
-Ne jamais committer .env avec des secrets (utiliser .env.example).
+1. **Clone the repository**:
 
-Comptes de démo : réinitialiser les mots de passe côté PG via crypt(...).
+   ```bash
+   git clone https://github.com/Mayk-ITdS/ecoride.git
+   cd ecoride
+   ```
 
-JWT : changer JWT_SECRET en production.
+2. **Set up the backend**:
 
-CORS : restreindre CORS_ORIGIN aux domaines de démo.
+   ```bash
+   cd backend
+   npm install
+   ```
 
-DB : pour un déploiement, créer des utilisateurs dédiés avec droits limités (éviter root).
+3. **Set up the frontend**:
 
-Logs : masquer les tokens et données sensibles.
+   ```bash
+   cd ../frontend
+   npm install
+   ```
 
-## Architecture (vue d’ensemble)
+4. **Database Setup**:
+   - Ensure PostgreSQL and MongoDB are running.
+   - Update the `.env` file in the backend directory with your database credentials (see `.env.example`).
+   - Run database migrations:
+     ```bash
+     cd backend
+     npx prisma migrate dev
+     ```
+   - Seed the database if needed:
+     ```bash
+     node db/seedMongo.js  # For MongoDB seeding
+     ```
 
-Architecture & stack
+## Running the Application
+
+1. **Start the backend**:
+
+   ```bash
+   cd backend
+   npm run dev
+   ```
+
+   The backend will run on `http://localhost:3000` (or as configured).
+
+2. **Start the frontend**:
+
+   ```bash
+   cd frontend
+   npm run dev
+   ```
+
+   The frontend will run on `http://localhost:5173` (or as configured by Vite).
+
+3. **Access the application**:
+   Open your browser and navigate to the frontend URL.
+
+## API Documentation
+
+The backend provides RESTful APIs for various functionalities. Key endpoints include:
+
+- **Authentication**: `/api/auth/login`, `/api/auth/register`
+- **Users**: `/api/users`
+- **Trips**: `/api/trajets`
+- **Vehicles**: `/api/voitures`
+- **Reviews**: `/api/reviews`
+
+For detailed API documentation, refer to the backend routes in `src/routes/`.
+
+## Testing
+
+- **Backend Tests**: Run tests in the backend directory:
+  ```bash
+  cd backend
+  npm test
+  ```
+- **Frontend Tests**: Run tests in the frontend directory:
+  ```bash
+  cd frontend
+  npm run test
+  ```
+
+## Test Accounts
+
+Use the following test accounts for demonstration:
+
+- **Demo**: zenon@studi.fr / password: "studi"
+
+## Security Best Practices
+
+- Never commit `.env` files with secrets; use `.env.example` as a template.
+- Change `JWT_SECRET` in production.
+- Restrict CORS origins to allowed domains.
+- Use dedicated database users with limited privileges.
+- Mask sensitive data in logs.
+
+## Contributing
+
+1. Fork the repository.
+2. Create a feature branch: `git checkout -b feature/your-feature`.
+3. Commit your changes: `git commit -m 'Add some feature'`.
+4. Push to the branch: `git push origin feature/your-feature`.
+5. Open a pull request.
+
+## License
+
+This project is licensed under the ISC License.
+
+## Links
+
+- **Trello Board**: [EcoRide Agile](https://trello.com/invite/b/68c2c067b25e3cf5fd59a8c1/ATTI27e2d66b9698bc865b3bfb24035f67ab5B193055/eco-ride-agile)
+- **GitHub Repository**: [Mayk-ITdS/ecoride](https://github.com/Mayk-ITdS/ecoride)
+- **Live Demo**: [EcoRide on Vercel](https://ecoride-three.vercel.app/)
+- **Designs & ERD**: Check the `docs/` folder for mockups and database diagrams.
 
 Front : React + Vite + Tailwind.
 Back : Express 5, Node.js 22, middlewares (CORS, JWT, validation),Prisma
